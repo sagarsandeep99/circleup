@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 20px 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #e91e63;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .explore-btn {
+            background-color: #e91e63;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .explore-btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h2 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #e91e63;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* Events Section */
+        .events {
+            padding: 80px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .events h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .event-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #e91e63;
+        }
+
+        .event-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .event-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero h2 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>Circle Up</h1>
+                <p class="tagline">Meet as strangers • C U around</p>
+            </div>
+            <button class="explore-btn" onclick="scrollToEvents()">Explore Events</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h2>Circle Up</h2>
+            <p>Meet as strangers</p>
+            <p><strong>C U around</strong></p>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="events">
+        <div class="events-container">
+            <h2>Upcoming Events</h2>
+            <div class="events-grid">
+                <!-- Event 1: Cooking -->
+                <div class="event-card">
+                    <div class="event-icon">🍳</div>
+                    <h3>Cooking</h3>
+                    <p>Join us for a fun cooking session where we'll make delicious dishes together and share recipes!</p>
+                </div>
+
+                <!-- Event 2: Painting -->
+                <div class="event-card">
+                    <div class="event-icon">🎨</div>
+                    <h3>Painting</h3>
+                    <p>Unleash your creativity with brushes and colors. No experience needed, just bring your imagination!</p>
+                </div>
+
+                <!-- Event 3: Art & Craft -->
+                <div class="event-card">
+                    <div class="event-icon">✂️</div>
+                    <h3>Art & Craft</h3>
+                    <p>Create beautiful handmade crafts and take home your masterpiece. Perfect for all skill levels!</p>
+                </div>
+
+                <!-- Event 4: Dumb Charades with Twist -->
+                <div class="event-card">
+                    <div class="event-icon">🎭</div>
+                    <h3>Dumb Charades with Twist</h3>
+                    <p>Classic game with exciting new twists! Get ready for laughter and unexpected challenges.</p>
+                </div>
+
+                <!-- Event 5: Pictionary -->
+                <div class="event-card">
+                    <div class="event-icon">✏️</div>
+                    <h3>Pictionary</h3>
+                    <p>Draw, guess, and have a blast! Test your artistic skills and quick thinking in this fun game.</p>
+                </div>
+
+                <!-- Event 6: Karaoke -->
+                <div class="event-card">
+                    <div class="event-icon">🎤</div>
+                    <h3>Karaoke</h3>
+                    <p>Sing your heart out! Whether you're a bathroom singer or a pro, everyone's welcome to the stage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Circle Up. All rights reserved.</p>
+        <p>Meet as strangers • C U around</p>
+    </footer>
+
+    <script>
+        function scrollToEvents() {
+            document.getElementById('events').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+    </script>
+</body>
+</html>
