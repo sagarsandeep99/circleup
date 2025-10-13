@@ -1,0 +1,110 @@
+/* --- Global Styles --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f8f8f8;
+}
+
+.intro-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a2e;
+    color: white;
+    padding: 20px; /* Add padding for smaller screens */
+    text-align: center;
+}
+
+/* Base layout for content rows (Desktop) */
+.content-row {
+    display: flex;
+    gap: 40px;
+    padding: 100px 50px;
+    justify-content: center;
+    align-items: flex-start; /* Ensure rows align nicely */
+    flex-wrap: wrap; /* Allow wrapping if necessary */
+}
+
+.alt-bg {
+    background-color: #e0e0f0;
+}
+
+.scroll-reveal {
+    /* Base styles for all elements */
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    flex: 1; /* Allow flexing on desktop */
+    min-width: 280px; /* Minimum size to prevent squishing */
+    max-width: 400px; /* Max size for desktop columns */
+    text-align: center;
+}
+
+.scroll-reveal.full-width {
+    max-width: 800px;
+    flex: none;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    /* Change content rows to stack vertically on smaller screens */
+    .content-row {
+        flex-direction: column;
+        gap: 30px; /* Slightly less gap for mobile */
+        padding: 50px 20px; /* Reduced vertical and horizontal padding */
+    }
+
+    /* Make all scroll-reveal elements take up full width (minus padding) */
+    .scroll-reveal {
+        max-width: 100%;
+        margin: 0 auto; /* Center the block */
+        flex: none; /* Disable flexing */
+    }
+    
+    /* Ensure the wide element is also full width on mobile */
+    .scroll-reveal.full-width {
+        max-width: 100%;
+    }
+
+    /* Adjust padding and font size for intro section */
+    .intro-section h1 {
+        font-size: 2em;
+    }
+}
+
+
+/* --- ANIMATION STATES (Unchanged) --- */
+
+/* 1. Initial State (Hidden) */
+.scroll-reveal {
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    opacity: 0;
+}
+
+/* Base transform reset */
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    transition-delay: var(--stagger-delay, 0s); 
+}
+
+/* 2. Specific Initial States (Before animation) */
+
+[data-animation="slide-left"] {
+    transform: translateX(-100px);
+}
+
+[data-animation="slide-right"] {
+    transform: translateX(100px);
+}
+
+[data-animation="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-animation="zoom-in"] {
+    transform: scale(0.8);
+}
