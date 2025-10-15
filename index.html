@@ -2,56 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- CRITICAL for responsive design -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Responsive Staggered Scroll Animations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Up | CU Around</title>
+    <!-- Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Link to your new external stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-black">
+    
+    <!-- Floating Navigation -->
+    <nav id="floating-nav" class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-xl mt-4 p-2 glass-effect rounded-full z-50 transform -translate-y-24 transition-transform duration-500">
+        <div class="flex justify-around items-center">
+            <a href="#home" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Home</a>
+            <a href="#pictionary" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Pictionary</a>
+            <a href="#karaoke" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Karaoke</a>
+            <a href="#painting" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Painting</a>
+            <a href="#cooking" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Cooking</a>
+            <a href="#charades" class="text-sm md:text-base text-gray-300 hover:text-white hover:text-glow transition-all duration-300 px-3 py-1">Charades</a>
+        </div>
+    </nav>
 
-    <div class="intro-section">
-        <h1>Scroll Down for Amazing Animations</h1>
-        <p>Using Intersection Observer for a sleek, staggered reveal.</p>
+    <!-- Background Canvas for Particle Animation -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+
+        <!-- Header Section -->
+        <header id="home" class="h-screen flex flex-col items-center justify-center text-center p-4">
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white text-glow">
+                Circle Up
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl text-green-400 font-light tracking-widest">
+                CU Around
+            </p>
+            <div class="absolute bottom-10 animate-bounce">
+                <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </header>
+
+        <!-- Main content with event sections -->
+        <main>
+            <!-- Pictionary Section -->
+            <section id="pictionary" class="min-h-screen flex items-center justify-center p-8 section-hidden">
+                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Pictionary</h2>
+                    <p class="text-lg md:text-xl text-gray-300">
+                        Unleash your inner artist, no skills required! Guess, draw, and laugh your way through wild prompts. It's not about the masterpiece; it's about the memorable mess.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Karaoke Section -->
+            <section id="karaoke" class="min-h-screen flex items-center justify-center p-8 section-hidden">
+                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Karaoke</h2>
+                    <p class="text-lg md:text-xl text-gray-300">
+                        Grab the mic and own the stage. Whether you're a shower singer or a rockstar in disguise, our karaoke nights are your chance to shine. All genres, all voices, all fun.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Painting Section -->
+            <section id="painting" class="min-h-screen flex items-center justify-center p-8 section-hidden">
+                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Painting</h2>
+                    <p class="text-lg md:text-xl text-gray-300">
+                        Connect with your creative side. We provide the canvas, paints, and guidance. You provide the imagination. A relaxing, social, and colorful experience awaits.
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Cooking Section -->
+            <section id="cooking" class="min-h-screen flex items-center justify-center p-8 section-hidden">
+                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Cooking</h2>
+                    <p class="text-lg md:text-xl text-gray-300">
+                        Mix, chop, and savor the flavor of new friendships. Join our themed cooking challenges to create delicious dishes together. The secret ingredient is collaboration.
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Dumb Charades Section -->
+            <section id="charades" class="min-h-screen flex items-center justify-center p-8 section-hidden">
+                 <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Dumb Charades</h2>
+                    <p class="text-lg md:text-xl text-gray-300">
+                        The classic game of silent acting. Get ready for hilarious interpretations and wild guesses. Express yourself without a single word and let the fun begin.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center p-8">
+            <p class="text-gray-400">&copy; 2025 Circle Up. Meet new people, create new stories.</p>
+        </footer>
+
     </div>
 
-    <!-- Section 1: Slide In From Left/Right -->
-    <section class="content-row">
-        <div class="scroll-reveal" data-animation="slide-left">
-            <h2>Creative Design</h2>
-            <p>Content that appears to fly in from the side, giving a dynamic feel.</p>
-        </div>
-        <div class="scroll-reveal" data-animation="slide-right">
-            <h2>User Experience</h2>
-            <p>This element enters from the opposite side, creating a nice visual balance.</p>
-        </div>
-    </section>
-
-    <!-- Section 2: Scale/Zoom Effect -->
-    <section class="content-row alt-bg">
-        <div class="scroll-reveal full-width" data-animation="zoom-in">
-            <h2>Scale Effect</h2>
-            <p>A dramatic zoom-in from a smaller size to full size, combined with a fade.</p>
-        </div>
-    </section>
-
-    <!-- Section 3: Staggered Fade Up (common animation) -->
-    <section class="content-row">
-        <div class="scroll-reveal" data-animation="fade-up" style="--stagger-delay: 0s;">
-            <h3>Step 1</h3>
-            <p>First element in the group.</p>
-        </div>
-        <div class="scroll-reveal" data-animation="fade-up" style="--stagger-delay: 0.2s;">
-            <h3>Step 2</h3>
-            <p>Second element, delayed by 0.2s.</p>
-        </div>
-        <div class="scroll-reveal" data-animation="fade-up" style="--stagger-delay: 0.4s;">
-            <h3>Step 3</h3>
-            <p>Third element, delayed by 0.4s.</p>
-        </div>
-    </section>
-
-    <footer>&copy; Responsive Intersection Observer Demo</footer>
-
-    <script src="script.js"></script>
+    <!-- Link to your new external script file -->
+    <!-- 'defer' ensures the script runs after the HTML is loaded -->
+    <script src="script.js" defer></script>
 </body>
 </html>

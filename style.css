@@ -1,110 +1,91 @@
-/* --- Global Styles --- */
+/* Add smooth scrolling behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom styles for the futuristic look and feel */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: #f8f8f8;
+    font-family: 'Inter', sans-serif;
+    background-color: #000000;
+    color: #e0e0e0;
+    overflow-x: hidden;
 }
 
-.intro-section {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #1a1a2e;
-    color: white;
-    padding: 20px; /* Add padding for smaller screens */
-    text-align: center;
+/* The background canvas for particle animations */
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.7;
 }
 
-/* Base layout for content rows (Desktop) */
-.content-row {
-    display: flex;
-    gap: 40px;
-    padding: 100px 50px;
-    justify-content: center;
-    align-items: flex-start; /* Ensure rows align nicely */
-    flex-wrap: wrap; /* Allow wrapping if necessary */
+/* Main content container layered on top of the canvas */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
 }
 
-.alt-bg {
-    background-color: #e0e0f0;
+/* Glassmorphism effect for content cards and nav */
+.glass-effect {
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.scroll-reveal {
-    /* Base styles for all elements */
-    padding: 30px;
-    background-color: white;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    flex: 1; /* Allow flexing on desktop */
-    min-width: 280px; /* Minimum size to prevent squishing */
-    max-width: 400px; /* Max size for desktop columns */
-    text-align: center;
+/* Glowing effect for text and borders */
+.text-glow {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(76, 175, 80, 0.3);
 }
 
-.scroll-reveal.full-width {
-    max-width: 800px;
-    flex: none;
+.border-glow {
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4), 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
-@media (max-width: 768px) {
-    /* Change content rows to stack vertically on smaller screens */
-    .content-row {
-        flex-direction: column;
-        gap: 30px; /* Slightly less gap for mobile */
-        padding: 50px 20px; /* Reduced vertical and horizontal padding */
-    }
-
-    /* Make all scroll-reveal elements take up full width (minus padding) */
-    .scroll-reveal {
-        max-width: 100%;
-        margin: 0 auto; /* Center the block */
-        flex: none; /* Disable flexing */
-    }
-    
-    /* Ensure the wide element is also full width on mobile */
-    .scroll-reveal.full-width {
-        max-width: 100%;
-    }
-
-    /* Adjust padding and font size for intro section */
-    .intro-section h1 {
-        font-size: 2em;
-    }
+/* Custom scrollbar for a more integrated look */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(76, 175, 80, 0.6);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(76, 175, 80, 0.8);
 }
 
-
-/* --- ANIMATION STATES (Unchanged) --- */
-
-/* 1. Initial State (Hidden) */
-.scroll-reveal {
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+/* Styling for the mouse trail dots */
+.trail {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    background-color: #4CAF50;
+    box-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50;
     opacity: 0;
+    animation: fadeOut 0.5s forwards;
 }
 
-/* Base transform reset */
-.scroll-reveal.active {
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* "Fade in tile" animation for sections */
+.section-hidden {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.section-visible {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
-    transition-delay: var(--stagger-delay, 0s); 
-}
-
-/* 2. Specific Initial States (Before animation) */
-
-[data-animation="slide-left"] {
-    transform: translateX(-100px);
-}
-
-[data-animation="slide-right"] {
-    transform: translateX(100px);
-}
-
-[data-animation="fade-up"] {
-    transform: translateY(30px);
-}
-
-[data-animation="zoom-in"] {
-    transform: scale(0.8);
+    transform: scale(1);
 }
