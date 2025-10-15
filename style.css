@@ -8,10 +8,19 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: #000000;
     color: #e0e0e0;
-    overflow-x: hidden;
+    overflow: hidden; /* Hide scrollbars caused by fast-moving character */
+    cursor: default;
 }
 
-/* The background canvas for particle animations */
+/* Define the neon green color */
+:root {
+    --neon-green: #39ff14;
+}
+.text-neon-green {
+    color: var(--neon-green);
+}
+
+/* The background canvas for the animation */
 #background-canvas {
     position: fixed;
     top: 0;
@@ -19,13 +28,16 @@ body {
     width: 100%;
     height: 100%;
     z-index: 0;
-    opacity: 0.7;
+    opacity: 0.5;
 }
 
 /* Main content container layered on top of the canvas */
 .content-wrapper {
     position: relative;
     z-index: 1;
+    height: 100vh;
+    overflow-y: auto; /* Enable scrolling for the content only */
+    overflow-x: hidden;
 }
 
 /* Glassmorphism effect for content cards and nav */
@@ -36,38 +48,32 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Glowing effect for text and borders */
+/* UPDATED: Stronger neon glow effect */
 .text-glow {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(76, 175, 80, 0.3);
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--neon-green), 0 0 30px var(--neon-green), 0 0 40px var(--neon-green);
 }
 
-.border-glow {
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4), 0 0 5px rgba(255, 255, 255, 0.2);
-}
-
-/* Custom scrollbar for a more integrated look */
-::-webkit-scrollbar {
+/* UPDATED: Custom scrollbar with neon green */
+.content-wrapper::-webkit-scrollbar {
     width: 8px;
 }
-::-webkit-scrollbar-track {
+.content-wrapper::-webkit-scrollbar-track {
     background: #0a0a0a;
 }
-::-webkit-scrollbar-thumb {
-    background: rgba(76, 175, 80, 0.6);
+.content-wrapper::-webkit-scrollbar-thumb {
+    background: var(--neon-green);
     border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(76, 175, 80, 0.8);
+    box-shadow: 0 0 10px var(--neon-green);
 }
 
-/* Styling for the mouse trail dots */
+/* Styling for the mouse trail dots with neon green */
 .trail {
     position: fixed;
     border-radius: 50%;
     pointer-events: none;
     z-index: 10000;
-    background-color: #4CAF50;
-    box-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50;
+    background-color: var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
     opacity: 0;
     animation: fadeOut 0.5s forwards;
 }
@@ -89,3 +95,63 @@ body {
     opacity: 1;
     transform: scale(1);
 }
+
+/* --- UPDATED: Interactive Character Styles --- */
+.character {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    z-index: 1001;
+    cursor: pointer;
+    /* UPDATED: Faster transition for snappy movement */
+    transition: all 0.1s ease-out; 
+}
+
+.character svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--neon-green);
+    filter: drop-shadow(0 0 8px var(--neon-green));
+}
+
+/* UPDATED: Smiley eye animation */
+@keyframes wink {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+}
+.right-eye {
+    animation: wink 3s infinite;
+    transform-origin: center;
+}
+
+/* UPDATED: Speech Bubble always visible */
+.character-bubble {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #111;
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1; /* Always visible */
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Speech bubble arrow */
+.character-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
