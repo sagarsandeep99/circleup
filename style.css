@@ -49,12 +49,12 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* UPDATED: Softer neon glow effect */
+/* Softer neon glow effect */
 .text-glow {
     text-shadow: 0 0 10px var(--soft-neon-green), 0 0 20px var(--soft-neon-green);
 }
 
-/* UPDATED: Custom scrollbar with softer neon green */
+/* Custom scrollbar with softer neon green */
 .content-wrapper::-webkit-scrollbar {
     width: 8px;
 }
@@ -79,11 +79,7 @@ body {
     animation: fadeOut 0.5s forwards;
 }
 
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-    }
-}
+@keyframes fadeOut { to { opacity: 0; } }
 
 /* "Fade in tile" animation for sections */
 .section-hidden {
@@ -91,15 +87,55 @@ body {
     transform: scale(0.9);
     transition: opacity 1s ease-out, transform 1s ease-out;
 }
-.section-visible {
-    opacity: 1;
-    transform: scale(1);
-}
-.event-card .card-content {
+.section-visible { opacity: 1; transform: scale(1); }
+.event-card .card-content { cursor: pointer; }
+
+/* --- Interactive Character Styles --- */
+.character {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    z-index: 1001;
     cursor: pointer;
+    transition: all 0.1s ease-out;
+}
+.character svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--neon-green);
+    filter: drop-shadow(0 0 5px var(--soft-neon-green));
+}
+@keyframes wink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.1); } }
+.right-eye { animation: wink 3s infinite; transform-origin: center; }
+.character-bubble {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #111;
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.character-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
 }
 
-/* --- NEW: Modal and Gallery Styles --- */
+/* --- Modal and Gallery Styles --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -117,10 +153,7 @@ body {
     transition: opacity 0.4s ease-in-out;
     pointer-events: none;
 }
-.modal-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-}
+.modal-overlay.visible { opacity: 1; pointer-events: auto; }
 .close-button {
     position: fixed;
     top: 20px;
@@ -134,12 +167,10 @@ body {
     text-shadow: 0 0 10px black;
     transition: transform 0.3s ease;
 }
-.close-button:hover {
-    transform: scale(1.1);
-}
+.close-button:hover { transform: scale(1.1); }
 .gallery-container {
     width: 100%;
-    height: 80vh; /* Increased height */
+    height: 80vh;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -149,34 +180,31 @@ body {
 .gallery-track {
     display: flex;
     align-items: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    /* UPDATED: Smoother transition timing */
+    position: relative; /* Changed from absolute */
+    height: 100%;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: grab;
 }
-.gallery-track:active {
-    cursor: grabbing;
-}
+.gallery-track:active { cursor: grabbing; }
 .gallery-item {
     width: 25vw;
     max-width: 180px;
     height: 40vh;
     max-height: 280px;
-    margin: 0 -5vw; /* Overlap items */
+    margin: 0 1vw; /* Consistent spacing */
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
     opacity: 0.3;
     transform: scale(0.6);
-    overflow: hidden;
+    flex-shrink: 0; /* Prevent items from shrinking */
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
 }
 .gallery-item.active {
     opacity: 1;
     transform: scale(1);
     z-index: 10;
-    width: 50vw; /* Bigger on desktop */
+    width: 50vw;
     max-width: 450px;
     height: 70vh;
     max-height: 600px;
@@ -185,7 +213,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    -webkit-user-drag: none; /* Prevents image ghosting on drag */
+    -webkit-user-drag: none;
     user-select: none;
 }
 .nav-button {
@@ -203,31 +231,16 @@ body {
     z-index: 1003;
     transition: all 0.3s;
 }
-.nav-button:hover {
-    background: rgba(0,0,0,0.7);
-    transform: translateY(-50%) scale(1.05);
-}
+.nav-button:hover { background: rgba(0,0,0,0.7); transform: translateY(-50%) scale(1.05); }
 .prev { left: 5vw; }
 .next { right: 5vw; }
-
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
-    .gallery-item.active {
-        width: 70vw; /* 70% of screen width on mobile */
-        height: 60vh;
-    }
-    .gallery-item {
-        margin: 0 -10vw;
-    }
-    .nav-button {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-    }
+    .gallery-item.active { width: 70vw; height: 60vh; }
+    .gallery-item { margin: 0 2vw; }
+    .nav-button { width: 40px; height: 40px; font-size: 1.5rem; }
     .prev { left: 2vw; }
     .next { right: 2vw; }
 }
