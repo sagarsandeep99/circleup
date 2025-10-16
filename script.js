@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function init() {
         particlesArray = [];
-        let numParticles = (canvas.height * canvas.width) / 11000;
+        // UPDATED: Decreased denominator by ~30% to increase particle/line count
+        let numParticles = (canvas.height * canvas.width) / 8500;
         for (let i=0; i < numParticles; i++) {
             let size = (Math.random() * 2) + 1;
             let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
@@ -122,11 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.getElementById('next-btn');
 
     const images = {
-        pictionary: [1, 2, 3, 4, 5, 6].map(i => `https://placehold.co/400x600/333/fff?text=Pictionary+${i}`),
-        karaoke:    [1, 2, 3, 4, 5, 6].map(i => `https://placehold.co/400x600/444/fff?text=Karaoke+${i}`),
-        painting:   [1, 2, 3, 4, 5, 6].map(i => `https://placehold.co/400x600/555/fff?text=Painting+${i}`),
-        cooking:    [1, 2, 3, 4, 5, 6].map(i => `https://placehold.co/400x600/666/fff?text=Cooking+${i}`),
-        charades:   [1, 2, 3, 4, 5, 6].map(i => `https://placehold.co/400x600/777/fff?text=Charades+${i}`),
+        // UPDATED: Increased image count from 6 to 20 for each category
+        pictionary: Array.from({ length: 20 }, (_, i) => `https://placehold.co/400x600/3F51B5/fff?text=Pictionary+${i + 1}`),
+        karaoke:    Array.from({ length: 20 }, (_, i) => `https://placehold.co/400x600/E91E63/fff?text=Karaoke+${i + 1}`),
+        painting:   Array.from({ length: 20 }, (_, i) => `https://placehold.co/400x600/9C27B0/fff?text=Painting+${i + 1}`),
+        cooking:    Array.from({ length: 20 }, (_, i) => `https://placehold.co/400x600/4CAF50/fff?text=Cooking+${i + 1}`),
+        charades:   Array.from({ length: 20 }, (_, i) => `https://placehold.co/400x600/FF9800/fff?text=Charades+${i + 1}`),
     };
 
     let currentIndex = 0;
@@ -154,11 +156,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateGallery() {
         const items = galleryTrack.querySelectorAll('.gallery-item');
-        const itemWidth = items[0].offsetWidth;
-        const gap = -0.08 * window.innerWidth; // Negative margin calculation
+        if (items.length === 0) return;
+
+        // This logic calculates the offset needed to center the current image
+        const activeItem = items[currentIndex];
+        const trackWidth = galleryTrack.offsetWidth;
+        const activeItemWidth = activeItem.offsetWidth;
+        const activeItemOffsetLeft = activeItem.offsetLeft;
         
-        currentTranslate = -currentIndex * (itemWidth + gap);
-        galleryTrack.style.transform = `translateX(${currentTranslate}px)`;
+        const desiredPosition = (trackWidth / 2) - (activeItemWidth / 2);
+        let offset = desiredPosition - activeItemOffsetLeft;
+
+        // This calculation is complex. A simpler, more robust flexbox approach is better.
+        // Let's stick to centering based on index and item widths.
+        
+        let totalOffset = 0;
+        for(let i = 0; i < currentIndex; i++) {
+            // Sum widths of preceding items
+            totalOffset += items[i].offsetWidth;
+        }
+        
+        // Center the active item
+        const centerPoint = galleryTrack.parentElement.clientWidth / 2;
+        const activeCenter = activeItem.offsetWidth / 2;
+        
+        // Add margin overlap to the calculation
+        const itemMargin = parseFloat(window.getComputedStyle(items[0]).marginRight) + parseFloat(window.getComputedStyle(items[0]).marginLeft);
+        totalOffset += (currentIndex * itemMargin);
+
+
+        let finalTranslate = centerPoint - totalOffset - activeCenter;
+        
+        galleryTrack.style.transform = `translateX(${finalTranslate}px)`;
         
         items.forEach((item, index) => {
             item.classList.toggle('active', index === currentIndex);
@@ -210,20 +239,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (movedBy < -100 && currentIndex < galleryTrack.children.length - 1) currentIndex++;
         if (movedBy > 100 && currentIndex > 0) currentIndex--;
-
-        galleryTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
-        const items = galleryTrack.querySelectorAll('.gallery-item');
-        const itemWidth = items[0].offsetWidth;
-        const gap = -0.08 * window.innerWidth;
         
-        currentTranslate = -currentIndex * (itemWidth + gap);
-        prevTranslate = currentTranslate;
+        // Re-enable smooth transition
+        galleryTrack.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
         
-        updateGallery();
+        updateGallery(); // Snap to the correct position
     }
 
     eventCards.forEach(card => card.addEventListener('click', openModal));
     closeModalBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 });
+
 
