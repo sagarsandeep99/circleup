@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouse = { x: null, y: null, radius: (canvas.height/120) * (canvas.width/120) };
     const colors = ["#39ff14", "#2eff70", "#00ff8a"];
 
-    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-    window.addEventListener('mouseout', () => { mouse.x = undefined; mouse.y = undefined; });
+    const isTouchDevice = () => 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (!isTouchDevice()) {
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = undefined; mouse.y = undefined; });
+    }
 
     class Particle {
         constructor(x, y, dX, dY, size, color) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=size; this.color=color; }
@@ -17,12 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
         update() {
             if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; }
             if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; }
-            let dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
-            if (distance < mouse.radius + this.size){
-                if (mouse.x < this.x && this.x < canvas.width - this.size * 10) { this.x += 3; }
-                if (mouse.x > this.x && this.x > this.size * 10) { this.x -= 3; }
-                if (mouse.y < this.y && this.y < canvas.height - this.size * 10) { this.y += 3; }
-                if (mouse.y > this.y && this.y > this.size * 10) { this.y -= 3; }
+            
+            if (!isTouchDevice()) {
+                let dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size){
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) { this.x += 3; }
+                    if (mouse.x > this.x && this.x > this.size * 10) { this.x -= 3; }
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) { this.y += 3; }
+                    if (mouse.y > this.y && this.y > this.size * 10) { this.y -= 3; }
+                }
             }
             this.x += this.directionX; this.y += this.directionY; this.draw();
         }
@@ -104,18 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleCharacterClick(e) {
         e.preventDefault();
-        if (isFirstClick) {
-            isFirstClick = false;
-        }
+        if (isFirstClick) { isFirstClick = false; }
         moveCharacter();
     }
 
     character.addEventListener('click', handleCharacterClick);
     character.addEventListener('touchstart', handleCharacterClick);
     bubble.textContent = "Catch me!";
-    setTimeout(moveCharacter, 100); // Initial position after a slight delay
+    setTimeout(moveCharacter, 100);
 
-    // --- GALLERY MODAL LOGIC ---
+    // --- REVISED GALLERY MODAL LOGIC ---
     const modal = document.getElementById('gallery-modal');
     const closeModalBtn = document.getElementById('close-modal');
     const eventCards = document.querySelectorAll('.event-card');
@@ -132,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let currentIndex = 0;
-    let isDragging = false, startPos = 0, currentTranslate = 0, dragOffset = 0;
+    let isDragging = false, startPos = 0, currentX = 0;
 
     function openModal(event) {
         const eventName = event.currentTarget.dataset.event;
@@ -144,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => modal.classList.add('visible'), 10);
         
         currentIndex = 0;
-        updateGallery(false); // Initial setup without transition
+        updateGalleryPositions();
         addGalleryListeners();
     }
 
@@ -154,45 +159,39 @@ document.addEventListener('DOMContentLoaded', () => {
         removeGalleryListeners();
     }
 
-    function updateGallery(useTransition = true) {
+    function updateGalleryPositions() {
         const items = galleryTrack.querySelectorAll('.gallery-item');
-        if (items.length === 0) return;
-
-        const containerWidth = galleryTrack.parentElement.clientWidth;
-        const activeItem = items[currentIndex];
-        const activeItemWidth = activeItem.offsetWidth;
-        
-        // Calculate the total width of all items before the current one
-        let offset = 0;
-        for (let i = 0; i < currentIndex; i++) {
-            offset += items[i].offsetWidth + (parseFloat(window.getComputedStyle(items[i]).marginLeft) + parseFloat(window.getComputedStyle(items[i]).marginRight));
-        }
-
-        const targetX = (containerWidth / 2) - (activeItemWidth / 2) - offset;
-
-        galleryTrack.style.transition = useTransition ? 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
-        galleryTrack.style.transform = `translateX(${targetX}px)`;
-        
         items.forEach((item, index) => {
-            item.classList.toggle('active', index === currentIndex);
+            const offset = index - currentIndex;
+            const absOffset = Math.abs(offset);
+
+            const translateX = offset * (window.innerWidth < 768 ? 30 : 20); // How much items spread out
+            const scale = 1 - absOffset * 0.2;
+            const zIndex = 100 - absOffset;
+            const currentOpacity = absOffset > 3 ? 0 : 1; // Hide items that are far away
+
+            item.style.transform = `translateX(calc(-50% + ${translateX}vw)) translateY(-50%) scale(${scale})`;
+            item.style.zIndex = zIndex;
+            item.style.opacity = currentOpacity;
         });
     }
     
-    function showNext() { if (currentIndex < galleryTrack.children.length - 1) { currentIndex++; updateGallery(); } }
-    function showPrev() { if (currentIndex > 0) { currentIndex--; updateGallery(); } }
+    function showNext() { if (currentIndex < galleryTrack.children.length - 1) { currentIndex++; updateGalleryPositions(); } }
+    function showPrev() { if (currentIndex > 0) { currentIndex--; updateGalleryPositions(); } }
 
     function addGalleryListeners() {
         prevBtn.addEventListener('click', showPrev);
         nextBtn.addEventListener('click', showNext);
         galleryTrack.addEventListener('mousedown', dragStart);
-        galleryTrack.addEventListener('touchstart', dragStart);
+        galleryTrack.addEventListener('touchstart', dragStart, { passive: true });
         window.addEventListener('mouseup', dragEnd);
         window.addEventListener('touchend', dragEnd);
         window.addEventListener('mousemove', drag);
-        window.addEventListener('touchmove', drag);
+        window.addEventListener('touchmove', drag, { passive: true });
     }
 
     function removeGalleryListeners() {
+        // Clean up listeners to prevent memory leaks
         prevBtn.removeEventListener('click', showPrev);
         nextBtn.removeEventListener('click', showNext);
         galleryTrack.removeEventListener('mousedown', dragStart);
@@ -204,52 +203,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function dragStart(e) {
-        e.preventDefault();
         isDragging = true;
         startPos = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        
-        const transformMatrix = window.getComputedStyle(galleryTrack).getPropertyValue('transform');
-        if (transformMatrix !== 'none') {
-            dragOffset = parseInt(transformMatrix.split(',')[4]);
-        } else {
-            dragOffset = 0;
-        }
+        galleryTrack.querySelectorAll('.gallery-item').forEach(item => {
+            item.style.transition = 'none'; // Disable transition for instant drag
+        });
     }
     
     function drag(e) {
-        if (isDragging) {
-            const currentPosition = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            const moveX = currentPosition - startPos;
-            currentTranslate = dragOffset + moveX;
-            galleryTrack.style.transition = 'none';
-            galleryTrack.style.transform = `translateX(${currentTranslate}px)`;
-        }
+        if (!isDragging) return;
+        currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        const movedBy = currentX - startPos;
+        // Optional: you could add a subtle real-time drag effect here if desired
     }
 
-    function dragEnd(e) {
+    function dragEnd() {
         if (!isDragging) return;
         isDragging = false;
         
-        const movedBy = currentTranslate - dragOffset;
+        const movedBy = currentX - startPos;
+        const threshold = 100; // How far user needs to swipe
 
-        if (movedBy < -100 && currentIndex < galleryTrack.children.length - 1) {
-            currentIndex++;
-        }
-        if (movedBy > 100 && currentIndex > 0) {
-            currentIndex--;
+        if (movedBy < -threshold) {
+            showNext();
+        } else if (movedBy > threshold) {
+            showPrev();
         }
         
-        updateGallery();
+        // Re-enable transitions
+        galleryTrack.querySelectorAll('.gallery-item').forEach(item => {
+            item.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease';
+        });
     }
 
     eventCards.forEach(card => card.addEventListener('click', openModal));
     closeModalBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-    // Ensure gallery is centered on window resize
     window.addEventListener('resize', () => {
         if (modal.classList.contains('visible')) {
-            updateGallery(false);
+            updateGalleryPositions();
         }
     });
 });

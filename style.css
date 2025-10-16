@@ -67,20 +67,6 @@ body {
     box-shadow: 0 0 5px var(--soft-neon-green);
 }
 
-/* Styling for the mouse trail dots with neon green */
-.trail {
-    position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    background-color: var(--neon-green);
-    box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
-    opacity: 0;
-    animation: fadeOut 0.5s forwards;
-}
-
-@keyframes fadeOut { to { opacity: 0; } }
-
 /* "Fade in tile" animation for sections */
 .section-hidden {
     opacity: 0;
@@ -135,7 +121,7 @@ body {
     border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
 }
 
-/* --- Modal and Gallery Styles --- */
+/* --- NEW / REVISED: Modal and Gallery Styles --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -172,43 +158,35 @@ body {
     width: 100%;
     height: 80vh;
     position: relative;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.gallery-track {
-    display: flex;
-    align-items: center;
-    position: relative; /* Changed from absolute */
-    height: 100%;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    cursor: grab;
-}
-.gallery-track:active { cursor: grabbing; }
-.gallery-item {
-    width: 25vw;
-    max-width: 180px;
-    height: 40vh;
-    max-height: 280px;
-    margin: 0 1vw; /* Consistent spacing */
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
-    opacity: 0.3;
-    transform: scale(0.6);
-    flex-shrink: 0; /* Prevent items from shrinking */
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     overflow: hidden;
 }
-.gallery-item.active {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 10;
+.gallery-track {
+    /* This element is now just a container for absolutely positioned items */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+.gallery-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 50vw;
     max-width: 450px;
     height: 70vh;
     max-height: 600px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform-origin: center center;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+    cursor: grab;
 }
+.gallery-item:active { cursor: grabbing; }
+
 .gallery-item img {
     width: 100%;
     height: 100%;
@@ -238,8 +216,7 @@ body {
 
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
-    .gallery-item.active { width: 70vw; height: 60vh; }
-    .gallery-item { margin: 0 2vw; }
+    .gallery-item { width: 70vw; height: 60vh; }
     .nav-button { width: 40px; height: 40px; font-size: 1.5rem; }
     .prev { left: 2vw; }
     .next { right: 2vw; }
