@@ -15,9 +15,8 @@
 </head>
 <body class="bg-black">
 
-    <!-- UPDATED: Interactive Smiley Character -->
+    <!-- Interactive Smiley Character -->
     <div id="catch-me-character" class="character">
-        <!-- Animated SVG Smiley -->
         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="25" cy="25" r="23" stroke-width="3"/>
             <circle class="eye left-eye" cx="18" cy="20" r="3"/>
@@ -44,7 +43,6 @@
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
-
         <!-- Header Section -->
         <header id="home" class="h-screen flex flex-col items-center justify-center text-center p-4">
             <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white text-glow">
@@ -60,53 +58,34 @@
 
         <!-- Main content with event sections -->
         <main>
-            <!-- Pictionary Section -->
-            <section id="pictionary" class="min-h-screen flex items-center justify-center p-8 section-hidden">
-                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+            <section id="pictionary" data-event="pictionary" class="min-h-screen flex items-center justify-center p-8 section-hidden event-card">
+                <div class="card-content max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
                     <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Pictionary</h2>
-                    <p class="text-lg md:text-xl text-gray-300">
-                        Unleash your inner artist, no skills required! Guess, draw, and laugh your way through wild prompts. It's not about the masterpiece; it's about the memorable mess.
-                    </p>
+                    <p class="text-lg md:text-xl text-gray-300">Unleash your inner artist, no skills required! Guess, draw, and laugh your way through wild prompts.</p>
                 </div>
             </section>
-
-            <!-- Karaoke Section -->
-            <section id="karaoke" class="min-h-screen flex items-center justify-center p-8 section-hidden">
-                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+            <section id="karaoke" data-event="karaoke" class="min-h-screen flex items-center justify-center p-8 section-hidden event-card">
+                <div class="card-content max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
                     <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Karaoke</h2>
-                    <p class="text-lg md:text-xl text-gray-300">
-                        Grab the mic and own the stage. Whether you're a shower singer or a rockstar in disguise, our karaoke nights are your chance to shine. All genres, all voices, all fun.
-                    </p>
+                    <p class="text-lg md:text-xl text-gray-300">Grab the mic and own the stage. Whether you're a shower singer or a rockstar in disguise, our karaoke nights are your chance to shine.</p>
                 </div>
             </section>
-
-            <!-- Painting Section -->
-            <section id="painting" class="min-h-screen flex items-center justify-center p-8 section-hidden">
-                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+            <section id="painting" data-event="painting" class="min-h-screen flex items-center justify-center p-8 section-hidden event-card">
+                <div class="card-content max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
                     <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Painting</h2>
-                    <p class="text-lg md:text-xl text-gray-300">
-                        Connect with your creative side. We provide the canvas, paints, and guidance. You provide the imagination. A relaxing, social, and colorful experience awaits.
-                    </p>
+                    <p class="text-lg md:text-xl text-gray-300">Connect with your creative side. We provide the canvas, paints, and guidance. You provide the imagination.</p>
                 </div>
             </section>
-            
-            <!-- Cooking Section -->
-            <section id="cooking" class="min-h-screen flex items-center justify-center p-8 section-hidden">
-                <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+            <section id="cooking" data-event="cooking" class="min-h-screen flex items-center justify-center p-8 section-hidden event-card">
+                <div class="card-content max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
                     <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Cooking</h2>
-                    <p class="text-lg md:text-xl text-gray-300">
-                        Mix, chop, and savor the flavor of new friendships. Join our themed cooking challenges to create delicious dishes together. The secret ingredient is collaboration.
-                    </p>
+                    <p class="text-lg md:text-xl text-gray-300">Mix, chop, and savor the flavor of new friendships. Join our themed cooking challenges to create delicious dishes together.</p>
                 </div>
             </section>
-            
-            <!-- Dumb Charades Section -->
-            <section id="charades" class="min-h-screen flex items-center justify-center p-8 section-hidden">
-                 <div class="max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
+            <section id="charades" data-event="charades" class="min-h-screen flex items-center justify-center p-8 section-hidden event-card">
+                 <div class="card-content max-w-4xl w-full glass-effect rounded-2xl p-8 md:p-12 text-center transform hover:scale-105 transition-transform duration-500">
                     <h2 class="text-4xl md:text-6xl font-bold text-white text-glow mb-4">Dumb Charades</h2>
-                    <p class="text-lg md:text-xl text-gray-300">
-                        The classic game of silent acting. Get ready for hilarious interpretations and wild guesses. Express yourself without a single word and let the fun begin.
-                    </p>
+                    <p class="text-lg md:text-xl text-gray-300">The classic game of silent acting. Get ready for hilarious interpretations and wild guesses. Express yourself without a single word.</p>
                 </div>
             </section>
         </main>
@@ -115,10 +94,20 @@
         <footer class="text-center p-8">
             <p class="text-gray-400">&copy; 2025 Circle Up. Meet new people, create new stories.</p>
         </footer>
-
     </div>
 
-    <!-- Link to your external script file -->
+    <!-- NEW: Image Gallery Modal -->
+    <div id="gallery-modal" class="modal-overlay hidden">
+        <button id="close-modal" class="close-button">&times;</button>
+        <div class="gallery-container">
+            <div id="gallery-track" class="gallery-track">
+                <!-- Images will be injected here by JavaScript -->
+            </div>
+        </div>
+        <button id="prev-btn" class="nav-button prev">&lt;</button>
+        <button id="next-btn" class="nav-button next">&gt;</button>
+    </div>
+
     <script src="script.js" defer></script>
 </body>
 </html>
