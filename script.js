@@ -211,6 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('touchend', dragEnd);
         window.addEventListener('mousemove', drag);
         window.addEventListener('touchmove', drag, { passive: true });
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('touchmove', drag, { passive: false })
     }
 
     function removeGalleryListeners() {
@@ -235,9 +237,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drag(e) {
         if (!isDragging) return;
+
+        // --- THE FIX: Prevent browser scrolling on touch devices ---
+        if (e.type.includes('touch')) {
+            e.preventDefault();
+        }
+
         currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        const movedBy = currentX - startPos;
-        // Optional: you could add a subtle real-time drag effect here if desired
+        // The rest of the logic is handled on dragEnd to trigger the animation
     }
 
     function dragEnd() {

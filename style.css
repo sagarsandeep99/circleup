@@ -6,9 +6,10 @@ html {
 /* Custom styles for the futuristic look and feel */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #000000;
+    /* Use a Linear Gradient for a darker, more moody feel */
+    background: linear-gradient(180deg, #0A140A 0%, #000000 100%);
     color: #e0e0e0;
-    overflow: hidden; /* Hide scrollbars caused by fast-moving character */
+    overflow: hidden; 
     cursor: default;
 }
 
