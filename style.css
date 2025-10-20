@@ -154,7 +154,10 @@ body {
     transition: transform 0.3s ease;
 }
 .close-button:hover { transform: scale(1.1); }
+/* --- NEW / REVISED: Modal and Gallery Styles --- */
+/* Add perspective for a true 3D look to the carousel */
 .gallery-container {
+    perspective: 1500px; 
     width: 100%;
     height: 80vh;
     position: relative;
@@ -163,12 +166,12 @@ body {
     justify-content: center;
     overflow: hidden;
 }
+
 .gallery-track {
-    /* This element is now just a container for absolutely positioned items */
     position: relative;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
+    transform-style: preserve-3d; /* Crucial for 3D effect */
 }
 .gallery-item {
     position: absolute;
@@ -180,10 +183,23 @@ body {
     max-height: 600px;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 40px rgba(57, 255, 20, 0.4); /* Enhanced Box Shadow for Neon Feel */
     transform-origin: center center;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+    /* Use a better, smoother easing function for transitions */
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; 
     cursor: grab;
+    will-change: transform, opacity; /* Performance boost for animation */
+}
+
+/* New: Hover Effect for Content Cards */
+.event-card .card-content {
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--soft-neon-green);
+    transition: all 0.5s ease-out;
+}
+.event-card .card-content:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 0 25px var(--neon-green);
 }
 .gallery-item:active { cursor: grabbing; }
 
